@@ -34,9 +34,9 @@ export default function App() {
         origin: { y: 0.6 },
         colors: ["#3b82f6", "#60a5fa", "#93c5fd"]
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert("Gagal menghasilkan konten. Silakan coba lagi.");
+      alert(`Gagal menghasilkan konten: ${error.message || "Silakan coba lagi."}`);
     } finally {
       setIsLoading(false);
     }

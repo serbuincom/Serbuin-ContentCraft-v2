@@ -1,6 +1,18 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// Lazy initialization to avoid crashing if API key is missing at load time
+let aiInstance: any = null;
+
+function getAI() {
+  if (!aiInstance) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is missing. Please add it to the Secrets panel in AI Studio.");
+    }
+    aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return aiInstance;
+}
 
 export type ContentType = "linkedin" | "twitter" | "blog" | "instagram" | "summary";
 export type ToneType = "professional" | "casual" | "witty" | "inspirational";
@@ -11,6 +23,7 @@ export async function generateContent(
   tone: ToneType,
   language: string = "Indonesian"
 ) {
+  const ai = getAI();
   const prompt = `
     You are an expert content creator. 
     Transform the following transcript or summary into a high-quality short-form content.
@@ -34,13 +47,24 @@ export async function generateContent(
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-flash-latest", // Using a more stable alias
       contents: prompt,
     });
 
+    if (!response.text) {
+      throw new Error("Model returned an empty response.");
+    }
+
     return response.text;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error generating content:", error);
+    // Provide more context in the error message
+    if (error.message?.includes("API_KEY_INVALID")) {
+      throw new Error("API Key tidak valid. Silakan periksa kembali di panel Secrets.");
+    }
+    if (error.message?.includes("quota")) {
+      throw new Error("Kuota API habis. Silakan coba lagi nanti.");
+    }
     throw error;
   }
 }
