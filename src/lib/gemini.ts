@@ -7,7 +7,7 @@ function getAI() {
   if (!aiInstance) {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      throw new Error("GEMINI_API_KEY is missing. Please add it to the Secrets panel in AI Studio.");
+      throw new Error("CC_GEMINI_API_KEY is missing. Please add it to the Secrets panel in AI Studio.");
     }
     aiInstance = new GoogleGenAI({ apiKey });
   }
