@@ -1,11 +1,21 @@
-<div align="center">
+# Serbuin ContentCraft v.1
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Aplikasi untuk mengubah ringkasan atau transkrip menjadi konten tulisan pendek yang menarik untuk media sosial dan blog.
 
-  <h1>Built with AI Studio</h2>
+## Cara Deploy ke Vercel
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+1. **Push ke GitHub/GitLab/Bitbucket**: Pastikan kode Anda sudah ada di repositori Git.
+2. **Import ke Vercel**: Masuk ke dashboard Vercel dan pilih "New Project", lalu import repositori Anda.
+3. **Konfigurasi Environment Variables**:
+   - Di bagian **Environment Variables**, tambahkan:
+     - `GEMINI_API_KEY`: Masukkan API Key Gemini Anda (bisa didapatkan di [Google AI Studio](https://aistudio.google.com/app/apikey)).
+4. **Deploy**: Klik "Deploy". Vercel akan secara otomatis mendeteksi Vite dan menjalankan build.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Pengembangan Lokal
 
-</div>
+```bash
+npm install
+npm run dev
+```
+
+Pastikan Anda memiliki file `.env` dengan `GEMINI_API_KEY`.
